@@ -90,6 +90,18 @@ Menjaga keunikan identifier seperti `id` pada Program dan `url` pada Subscriber 
 
 Meskipun model kepemilikan (ownership) dan pengecekan compiler Rust memberikan dasar yang kuat untuk keamanan thread, ketika beberapa thread mengakses data bersama, diperlukan langkah tambahan untuk menghindari kondisi balapan (race condition). Pola Singleton memastikan hanya ada satu instance dari suatu struktur data, tetapi pola ini tidak secara inheren melindungi data dari modifikasi bersamaan atau masalah sinkronisasi. Dalam kasus kita, daftar subscriber bersama diakses oleh beberapa thread, sehingga penggunaan koleksi yang aman untuk thread seperti `DashMap` sangat diperlukan. `DashMap` dirancang untuk menangani akses konkuren dengan lancar tanpa perlu mekanisme kunci atau sinkronisasi manual. Oleh karena itu, meskipun kita dapat menerapkan pola Singleton untuk memastikan hanya ada satu instance, hal tersebut tidak menggantikan kebutuhan akan struktur data yang aman untuk thread, karena kedua pendekatan ini menangani aspek yang berbeda dalam permasalahan konkurensi.
 
-#### Reflection Publisher-2
+## Refleksi Publisher-2
+
+### 1. Mengapa kita perlu memisahkan "Service" dan "Repository" dari Model?
+
+Dalam pola desain Model-View-Controller (MVC) klasik, Model bertanggung jawab atas penyimpanan data sekaligus logika bisnis. Namun, dalam praktik rekayasa perangkat lunak modern, memisahkan "Service" dan "Repository" dari Model adalah penerapan prinsip *Separation of Concerns* yang baik. `Repository` berfokus pada akses data (CRUD ke database atau penyimpanan lainnya), sedangkan `Service` menangani logika bisnis yang mengatur alur dan proses aplikasi. Dengan pemisahan ini, kode menjadi lebih modular, mudah diuji, dan mudah dipelihara. Hal ini juga memungkinkan pengembangan paralel oleh tim berbeda tanpa saling mengganggu, serta membuat sistem lebih fleksibel untuk perubahan teknologi penyimpanan atau logika bisnis.
+
+### 2. Apa yang terjadi jika kita hanya menggunakan Model?
+
+Jika kita hanya menggunakan Model untuk menangani semua tanggung jawab — termasuk logika bisnis dan penyimpanan data — maka kompleksitas setiap model akan meningkat drastis. Misalnya, jika `Program`, `Subscriber`, dan `Notification` saling berinteraksi langsung, maka setiap Model harus mengetahui terlalu banyak detail tentang Model lain. Ini akan menciptakan ketergantungan antar Model yang kuat (*tight coupling*), membuat perubahan kecil di satu bagian bisa berdampak besar pada bagian lain. Hal ini membuat pengujian lebih sulit, debugging jadi rumit, dan skalabilitas sistem menjadi terhambat. Selain itu, tanggung jawab Model menjadi terlalu besar, melanggar prinsip *Single Responsibility* dalam pemrograman berorientasi objek.
+
+### 3. Apa manfaat menggunakan Postman? Fitur apa yang membantu?
+
+Postman memungkinkan saya untuk mengirim HTTP request dengan lebih mudah dan simpel tanpa harus membuat UI terlebih dahulu. Hal ini sangat membantu saat menguji fungsi-fungsi seperti `subscribe` dan `unsubscribe` dalam proyek ini. Fitur seperti *Environment Variables*, *Collections*, dan *Pre-request Scripts* sangat berguna untuk menyusun skenario pengujian yang kompleks. Selain itu, fitur *Test Scripts* dan *Visualize* memberikan fleksibilitas dalam memvalidasi respons API secara otomatis. Postman jelas menjadi alat yang sangat bermanfaat tidak hanya dalam proyek kelompok ini, tapi juga untuk proyek rekayasa perangkat lunak nanti.
 
 #### Reflection Publisher-3
