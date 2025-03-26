@@ -94,7 +94,7 @@ Meskipun model kepemilikan (ownership) dan pengecekan compiler Rust memberikan d
 
 ### 1. Mengapa kita perlu memisahkan "Service" dan "Repository" dari Model?
 
-Dalam pola desain Model-View-Controller (MVC) klasik, Model bertanggung jawab atas penyimpanan data sekaligus logika bisnis. Namun, dalam praktik rekayasa perangkat lunak modern, memisahkan "Service" dan "Repository" dari Model adalah penerapan prinsip *Separation of Concerns* yang baik. `Repository` berfokus pada akses data (CRUD ke database atau penyimpanan lainnya), sedangkan `Service` menangani logika bisnis yang mengatur alur dan proses aplikasi. Dengan pemisahan ini, kode menjadi lebih modular, mudah diuji, dan mudah dipelihara. Hal ini juga memungkinkan pengembangan paralel oleh tim berbeda tanpa saling mengganggu, serta membuat sistem lebih fleksibel untuk perubahan teknologi penyimpanan atau logika bisnis.
+Dalam pola desain Model-View-Controller (MVC) klasik, Model bertanggung jawab atas penyimpanan data sekaligus logika bisnis. Namun, dalam praktik rekayasa perangkat lunak modern, memisahkan "Service" dan "Repository" dari Model adalah penerapan prinsip *Separation of Concerns* yang baik. `Repository` berfokus pada akses data (CRUD ke database atau penyimpanan lainnya), sedangkan `Service` menangani logika bisnis yang mengatur alur dan proses aplikasi. Dengan pemisahan ini, kode menjadi lebih modular, mudah diuji, dan mudah dipelihara. Hal ini juga memungkinkan pengembangan paralel oleh tim yang berbeda tanpa saling mengganggu, serta membuat sistem lebih fleksibel untuk perubahan teknologi penyimpanan atau logika bisnis.
 
 ### 2. Apa yang terjadi jika kita hanya menggunakan Model?
 
