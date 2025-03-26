@@ -76,7 +76,19 @@ This is the place for you to write reflections:
 
 ### Mandatory (Publisher) Reflections
 
-#### Reflection Publisher-1
+# Refleksi Publisher-1
+
+### 1. Apakah kita masih perlu menggunakan interface/trait untuk `Subscriber` dalam kasus BambangShop?
+
+Dalam implementasi pola Observer tradisional, seperti yang dijelaskan dalam buku Head First Design Patterns, `Subscriber` biasanya didefinisikan sebagai interface (atau trait dalam Rust) untuk memungkinkan berbagai implementasi konkret. Abstraksi ini memungkinkan kita untuk membuat tipe subscriber yang berbeda dengan perilaku yang bervariasi, sehingga mendukung fleksibilitas dan ekstensibilitas sistem. Dalam konteks BambangShop, jika hanya ada satu jenis subscriber dengan perilaku yang tidak diharapkan berubah atau berkembang, satu model struct saja mungkin sudah cukup. Namun, dengan menggunakan trait, desain kita tetap terbuka untuk penambahan fitur atau perubahan di masa depan, jika memang dibutuhkan variasi perilaku subscriber. Oleh karena itu, meskipun penggunaan struct tunggal lebih sederhana, penggunaan interface (trait) memberikan lapisan abstraksi yang berguna untuk mengelola kompleksitas seiring pertumbuhan sistem.
+
+### 2. Apakah menggunakan `Vec` sudah cukup atau penggunaan `DashMap` diperlukan untuk menjaga keunikan dan pencarian yang cepat?
+
+Menjaga keunikan identifier seperti `id` pada Program dan `url` pada Subscriber sangat penting untuk integritas sistem. Meskipun `Vec` (daftar) bisa digunakan, penggunaan `Vec` biasanya memerlukan pencarian seluruh koleksi untuk memeriksa keunikan atau melakukan lookup, yang dapat menjadi tidak efisien saat jumlah data bertambah. Sebaliknya, struktur data berbasis map seperti `DashMap` memungkinkan akses langsung ke elemen melalui kunci, sehingga keunikan sudah dijamin secara otomatis dan pencarian, penyisipan, maupun penghapusan dapat dilakukan dengan lebih cepat. Efisiensi ini sangat penting dalam lingkungan yang membutuhkan performa tinggi dan memiliki akses data secara bersamaan. Dengan demikian, meskipun `Vec` mungkin memadai untuk dataset kecil, penggunaan `DashMap` merupakan pilihan yang lebih handal untuk mengelola daftar subscriber yang unik dan berkembang.
+
+### 3. Apakah kita masih perlu `DashMap` untuk keamanan thread, atau kita bisa menerapkan pola Singleton saja?
+
+Meskipun model kepemilikan (ownership) dan pengecekan compiler Rust memberikan dasar yang kuat untuk keamanan thread, ketika beberapa thread mengakses data bersama, diperlukan langkah tambahan untuk menghindari kondisi balapan (race condition). Pola Singleton memastikan hanya ada satu instance dari suatu struktur data, tetapi pola ini tidak secara inheren melindungi data dari modifikasi bersamaan atau masalah sinkronisasi. Dalam kasus kita, daftar subscriber bersama diakses oleh beberapa thread, sehingga penggunaan koleksi yang aman untuk thread seperti `DashMap` sangat diperlukan. `DashMap` dirancang untuk menangani akses konkuren dengan lancar tanpa perlu mekanisme kunci atau sinkronisasi manual. Oleh karena itu, meskipun kita dapat menerapkan pola Singleton untuk memastikan hanya ada satu instance, hal tersebut tidak menggantikan kebutuhan akan struktur data yang aman untuk thread, karena kedua pendekatan ini menangani aspek yang berbeda dalam permasalahan konkurensi.
 
 #### Reflection Publisher-2
 
