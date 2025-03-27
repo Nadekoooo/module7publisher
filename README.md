@@ -104,4 +104,17 @@ Jika kita hanya menggunakan Model untuk menangani semua tanggung jawab — terma
 
 Postman memungkinkan saya untuk mengirim HTTP request dengan lebih mudah dan simpel tanpa harus membuat UI terlebih dahulu. Hal ini sangat membantu saat menguji fungsi-fungsi seperti `subscribe` dan `unsubscribe` dalam proyek ini. Fitur seperti *Environment Variables*, *Collections*, dan *Pre-request Scripts* sangat berguna untuk menyusun skenario pengujian yang kompleks. Selain itu, fitur *Test Scripts* dan *Visualize* memberikan fleksibilitas dalam memvalidasi respons API secara otomatis. Postman jelas menjadi alat yang sangat bermanfaat tidak hanya dalam proyek kelompok ini, tapi juga untuk proyek rekayasa perangkat lunak nanti.
 
-#### Reflection Publisher-3
+## Refleksi Publisher-3
+
+### 1. Pola Observer mana yang digunakan: Push atau Pull?
+
+Dalam kasus tutorial ini, kita menggunakan variasi **Push model** dari Observer Pattern. Artinya, sistem langsung mengirim (push) data notifikasi ke masing-masing subscriber begitu sebuah event terjadi, seperti produk dibuat, dihapus, atau dipromosikan. Subscriber tidak perlu meminta data secara eksplisit; mereka hanya menerima notifikasi sesuai informasi yang diberikan oleh publisher.
+
+### 2. Apa kelebihan dan kekurangan jika kita menggunakan Pull model?
+
+Kalau kita membayangkan menggunakan **Pull model**, subscriber harus aktif menanyakan ke publisher apakah ada event baru. Keuntungannya, subscriber punya kontrol penuh terhadap kapan dan seberapa sering mereka mengambil data—bisa lebih hemat bandwidth kalau jarang ada perubahan. Tapi kekurangannya, implementasi menjadi lebih kompleks karena harus ada sistem polling atau scheduler. Selain itu, respons jadi tidak real-time, dan bisa menimbulkan keterlambatan dalam menerima informasi penting seperti promosi. Dalam konteks aplikasi BambangShop, model Pull akan membuat pengalaman pengguna menjadi tidak optimal karena notifikasi tidak dikirim langsung saat event terjadi.
+
+### 3. Apa yang terjadi jika proses notifikasi tidak menggunakan multi-threading?
+
+Kalau kita tidak menggunakan multi-threading saat mengirim notifikasi ke subscriber, maka semua notifikasi akan dikirim satu per satu secara blocking (menunggu satu selesai baru lanjut). Hal ini akan memperlambat respon keseluruhan sistem, terutama kalau jumlah subscriber banyak atau ada subscriber yang lambat/responsnya delay. Proses utama akan terhambat dan bisa membuat user lain merasa aplikasi menjadi lambat atau tidak responsif. Dengan multi-threading, setiap notifikasi berjalan secara paralel sehingga proses lebih cepat dan efisien.
+
