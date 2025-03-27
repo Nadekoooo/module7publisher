@@ -23,7 +23,7 @@ impl Subscriber {
             .send().await.ok();
 
         log::warn_!(
-            "Sent {} notification of: [{}] {}, to: {}",
+            "Sent {} no tification of: [{}] {}, to: {}",
             payload.status, payload.product_type, payload.product_title, self.url
         );
     }
